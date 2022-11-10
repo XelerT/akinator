@@ -13,11 +13,25 @@ enum errors {
         NULL_CALLOC = -1
 };
 
+struct graph_node_atr_t {
+        const char *shape = "rectangle";
+        const char *style = "rounded";
+        const char *fixedsize = "false";
+        const char *fillcolor = "#00b899";
+        int height = 3;
+        int width = 2;
+        int fontsize = 30;
+        int penwidth = 5;
+};
+
 struct node_t {
         node_t *left  = nullptr;
         elem_t data   = nullptr;        //???
         node_t *right = nullptr;
+        size_t indx   =       0;
         int new_node  =       0;
+
+        graph_node_atr_t atr = {};
 };
 
 struct tree_t {
@@ -26,12 +40,9 @@ struct tree_t {
 };
 
 int tree_ctor (tree_t *tree);
-int tree_insert (node_t *node, elem_t data);
+node_t* tree_insert (tree_t *tree, node_t *node, elem_t data);
 int tree_dtor (tree_t *tree);
 void free_nodes (node_t *node);
-int tree_dump (tree_t *tree, const char *file_name, const char *func, const int line,
-               const char *tree_name, FILE *log, const char *img);
-int tree_error (tree_t *tree);
 
 
 #endif /*TREE_H*/
