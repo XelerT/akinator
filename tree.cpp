@@ -13,7 +13,7 @@ int tree_ctor (tree_t *tree)
         tree->root = (node_t*) calloc(1, sizeof(node_t));
         if (!tree->root)
                 return NULL_CALLOC;
-        tree->size = 0;
+        tree->size = 1;
         tree->root->atr = {};
 
         return 0;
@@ -48,14 +48,15 @@ int tree_dtor (tree_t *tree)
 void free_nodes (node_t *node)
 {
         // tree_dump();
-
+fprintf(stderr, "%d\n", __LINE__);
         if (node->left)
                 free_nodes(node->left);
+fprintf(stderr, "%d\n", __LINE__);
         if (node->right)
                 free_nodes(node->right);
         if (node->new_node) {
                 free(node);
         }
-
+fprintf(stderr, "%d\n", __LINE__);
         return;
 }

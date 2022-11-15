@@ -44,5 +44,4 @@ node_t* tree_insert (tree_t *tree, node_t *node, elem_t data);
 int tree_dtor (tree_t *tree);
 void free_nodes (node_t *node);
 
-
 #endif /*TREE_H*/

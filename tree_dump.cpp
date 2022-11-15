@@ -90,15 +90,15 @@ void tree_graph (tree_t *tree)
 
 void print_gv_nodes (node_t *node)
 {
-        gv_print(node_atr_sample, node->atr.shape, node->atr.style, node->atr.height,
-                 node->atr.width, node->atr.fixedsize, node->atr.fillcolor,node->atr.fontsize,
-                 node->atr.penwidth);
 
         if (node->left)
                 print_gv_nodes(node->left);
         if (node->right)
                 print_gv_nodes(node->right);
 
+        gv_print(node_atr_sample, node->atr.shape, node->atr.style, node->atr.height,
+                 node->atr.width, node->atr.fixedsize, node->atr.fillcolor,node->atr.fontsize,
+                 node->atr.penwidth);
         gv_print(node_sample, node->indx, node->data);
 }
 
@@ -112,7 +112,7 @@ void tie_gv_nodes (node_t *node)
                 gv_print(nodes_tie_atr, node->indx, node->left->indx, "black");
         }
         if (node->right) {
-                gv_print(nodes_tie_atr, node->indx, node->right->indx, "yellow");
+                gv_print(nodes_tie_atr, node->indx, node->right->indx, "red");
 
         }
 }

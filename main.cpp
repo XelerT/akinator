@@ -2,22 +2,23 @@
 #include <assert.h>
 #include "tree.h"
 #include "tree_dump.h"
+#include "tree_text.h"
 
 int main ()
 {
         tree_t tree = {};
+        text_t text = {};
         tree_ctor(&tree);
-        char root_node[] = "root?";
-        tree.root->data = root_node;
-
-        for (int i = 0; i < 3; i++) {
-                if (i % 2) {
-                        tree.root->left = tree_insert(&tree, tree.root->left, "fucking left node");
-                        assert(tree.root->left);
-                } else
-                        tree.root->right = tree_insert(&tree, tree.root->right, "fucking right node");
-        }
+        FILE *akitree = fopen("akitree.txt", "r");
+        get_text (akitree, &text);
+        replace_n (&text);
+        divide_text (&text);
+        size_t line_count = 0;
+        get_tree(&tree, tree.root, &text, &line_count);
 
         tree_graph(&tree);
+
+        akinator(&tree);
+        // tree_dtor(&tree);
         return 0;
 }
