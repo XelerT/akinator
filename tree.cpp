@@ -6,6 +6,8 @@
 // #define tree_dump(list,html_log,graph_path) list_dump(tree, __FILE__,  __PRETTY_FUNCTION__,                    \
 //                                                       __LINE__, #list, html_log, #graph_path)
 
+#define $ fprintf(stderr, "I'm here. File %s Line %d\n", __FILE__, __LINE__);
+
 int tree_ctor (tree_t *tree)
 {
         assert(tree);
@@ -40,23 +42,24 @@ int tree_dtor (tree_t *tree)
         if (!tree)
                 return NULL_TREE_PTR;
         free_nodes(tree->root);
-        free(tree);
+        // free(tree);
 
         return 0;
 }
 
 void free_nodes (node_t *node)
 {
-        // tree_dump();
-fprintf(stderr, "%d\n", __LINE__);
-        if (node->left)
+        assert(node);
+
+        if (node->left) {
+                assert(node);
+                assert(node->left);
                 free_nodes(node->left);
-fprintf(stderr, "%d\n", __LINE__);
-        if (node->right)
+        }
+        if (node->right) {
                 free_nodes(node->right);
+        }
         if (node->new_node) {
                 free(node);
         }
-fprintf(stderr, "%d\n", __LINE__);
-        return;
 }

@@ -1,4 +1,4 @@
-CFILES = main.cpp tree.cpp tree_dump.cpp
+CFILES = main.cpp tree.cpp tree_dump.cpp text_tree.cpp akinator.cpp
 OUTPUT = a.exe
 IMG_FORMAT = png
 DOT_FILE_NAME = tree_graph.dot

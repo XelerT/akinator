@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <sys\stat.h>
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -8,26 +7,26 @@
 
 #include "tree_text.h"
 
-void get_text (FILE *input, text_t *text)
+int get_text (FILE *input, text_t *text)
 {
         if (!input) {
                 fprintf(stderr, "File pointer is null. File: %s | Line: %d\n", __FILE__, __LINE__);
-                return;
+                return NULL_FILE_PTR;
         }
         if (!text) {
                 fprintf(stderr, "Text pointer is null. File: %s | Line: %d\n", __FILE__, __LINE__);
-                return;
+                return NULL_TEXT_PTR;
         }
 
         struct stat file = {};
         if (stat("akitree.txt", &file) < 0)
-                return;
+                return FILE_ERR;
 
         size_t n_chars = 0;
         char *buf = (char*) calloc(file.st_size + 1, sizeof(char));
         if (!buf) {
                 fprintf(stderr, "Calloc returned NULL. %d\n", __LINE__);
-                return;
+                return NULL_CALLOC;
         }
 
         n_chars = fread(buf, sizeof(char), file.st_size, input);
@@ -35,6 +34,11 @@ void get_text (FILE *input, text_t *text)
 
         text->buf = buf;
         text->n_lines = file.st_size - n_chars;
+        if (!n_chars) {
+                fprintf(stderr, "Input file is empty.\n");
+                return EMPTY_FILE;
+        }
+        return 0;
 }
 
 void replace_n (text_t *text)
@@ -46,7 +50,7 @@ void replace_n (text_t *text)
 
         char *buf = text->buf;
 
-        for (int i = 0; i < text->n_chars; i++)
+        for (size_t i = 0; i < text->n_chars; i++)
                 if (text->buf[i] == '\n')
                         buf[i] = '\0';
 }
@@ -97,8 +101,6 @@ void get_tree (tree_t *tree, node_t *node, text_t *text, size_t *line_count)
         } else if (*line_count < text->n_lines - 1) {
                 (*line_count)++;
         }
-
-
 }
 
 char* get_line(char *line)
@@ -106,13 +108,16 @@ char* get_line(char *line)
         assert(line);
 
         char *ret_line = (char*) calloc(MAX_LINE_LENGTH, sizeof(char));
+        int   n_chars  = 0;
         if (!ret_line)
-                fprintf(stderr, "Null lcalloc ptr. %s %d\n", __FILE__, __LINE__);
+                fprintf(stderr, "Null calloc ptr. %s %d\n", __FILE__, __LINE__);
 
         line = skip_tabs(line);
         line+= 2;
-        if (!sscanf(line, "[%s]", ret_line))
+        if (!sscanf(line, "[%[^]]%n", ret_line, &n_chars))
                 fprintf(stderr, "Null line ptr. %s %d\n", __FILE__, __LINE__);
+        if (n_chars > MAX_LINE_LENGTH)
+                fprintf(stderr, "Line in file is too long(%d chars). %s %d\n", n_chars, __FILE__, __LINE__);
 
         return ret_line;
 }
@@ -124,4 +129,32 @@ char *skip_tabs (char *line)
         while (isspace(*line))
                 line++;
         return line;
+}
+
+int tree2text (node_t *node, FILE *output, int n_tabs)
+{
+        assert(node);
+        assert(output);
+
+        if (node->right) {
+                print_tabs(output, n_tabs);
+                fprintf(output, "{ [%s] \n", node->data);
+                tree2text(node->right, output, n_tabs + 1);
+                tree2text(node->left,  output, n_tabs + 1);
+                print_tabs(output, n_tabs);
+                fprintf(output, "}\n");
+        } else {
+                print_tabs(output, n_tabs);
+                fprintf(output, "{ [%s] }\n", node->data);
+        }
+
+        return 0;
+}
+
+void print_tabs (FILE *output, int n_tabs)
+{
+        assert(output);
+
+        for (int i = 0; i < n_tabs; i++)
+                fprintf(output, "\t");
 }

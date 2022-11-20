@@ -10,7 +10,8 @@ enum tree_errors {
 };
 
 enum errors {
-        NULL_CALLOC = -1
+        NULL_CALLOC = -1,
+        NULL_FILE_PTR = -2
 };
 
 struct graph_node_atr_t {
@@ -43,5 +44,4 @@ int tree_ctor (tree_t *tree);
 node_t* tree_insert (tree_t *tree, node_t *node, elem_t data);
 int tree_dtor (tree_t *tree);
 void free_nodes (node_t *node);
-
 #endif /*TREE_H*/

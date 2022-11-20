@@ -51,12 +51,12 @@ static const char digraph_atr_sample[] = "digraph %s {                          
                                                 \nsplines = %s;                         \
                                                 \n";
 
-static const char node_atr_sample[] = "\nnode[shape = \"%s\", style = \"%s\",                                            \
+static const char node_atr_sample[] = "\nnode%d[shape = \"%s\", style = \"%s\",                                            \
 		                                \nheight = %d, width = %d, fixedsize = %s,                               \
 		                                \nfillcolor = \"%s\",                                                    \
 		                                \nfontsize = %d,                                                         \
 		                                \npenwidth = %d                                                          \
-		                                \n]\n";
+		                                \n];\n";
 
 static const char edge_atr_sample[] = "\nedge[penwidth = %d, color = \"%s\"];";
 
@@ -96,7 +96,7 @@ void print_gv_nodes (node_t *node)
         if (node->right)
                 print_gv_nodes(node->right);
 
-        gv_print(node_atr_sample, node->atr.shape, node->atr.style, node->atr.height,
+        gv_print(node_atr_sample, node->indx, node->atr.shape, node->atr.style, node->atr.height,
                  node->atr.width, node->atr.fixedsize, node->atr.fillcolor,node->atr.fontsize,
                  node->atr.penwidth);
         gv_print(node_sample, node->indx, node->data);
