@@ -7,6 +7,7 @@
 //                                                       __LINE__, #list, html_log, #graph_path)
 
 #define $ fprintf(stderr, "I'm here. File %s Line %d\n", __FILE__, __LINE__);
+#define $
 
 int tree_ctor (tree_t *tree)
 {

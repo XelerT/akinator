@@ -14,7 +14,8 @@ struct akinator_t {
 };
 
 enum aki_errors {
-        BUF_OVERFLAW = 0xBADBAF
+        BUF_OVERFLAW = 0xBADBAF,
+        NO_NAME      = 0xBAD4A2E
 };
 
 int akinator (tree_t *tree);
@@ -24,5 +25,6 @@ int add_new_hero (tree_t *tree, node_t *node);
 void free_buf (char *buf);
 node_t* find_name (akinator_t *aki, char *name, node_t *node, node_t *path_node);
 int give_defenition (akinator_t *aki);
+int give_comparison (akinator_t *aki);
 
 #endif /*AKINATOR_H*/

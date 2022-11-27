@@ -5,6 +5,8 @@
 #include "tree_text.h"
 #include "akinator.h"
 
+#define $ fprintf(stderr, "I'm here. File %s Line %d\n", __FILE__, __LINE__);
+#define $
 
 int main ()
 {
@@ -24,7 +26,6 @@ int main ()
         size_t line_count = 0;
         get_tree(&tree, tree.root, &text, &line_count);
 
-
         if (error = akinator(&tree))
                 return error;
         fclose(akitree);
@@ -33,7 +34,9 @@ int main ()
                 fprintf(stderr, "File pointer is null. %d\n", __LINE__);
                 return NULL_FILE_PTR;
         }
+        $
         tree2text(tree.root, output, 0);
+        $
         tree_graph(&tree);
 
         fclose(output);

@@ -6,6 +6,8 @@
 #include <assert.h>
 
 #include "tree_text.h"
+#define $ fprintf(stderr, "I'm here. File %s Line %d\n", __FILE__, __LINE__);
+// #define $
 
 int get_text (FILE *input, text_t *text)
 {
@@ -135,7 +137,7 @@ int tree2text (node_t *node, FILE *output, int n_tabs)
 {
         assert(node);
         assert(output);
-
+$
         if (node->right) {
                 print_tabs(output, n_tabs);
                 fprintf(output, "{ [%s] \n", node->data);
@@ -147,7 +149,7 @@ int tree2text (node_t *node, FILE *output, int n_tabs)
                 print_tabs(output, n_tabs);
                 fprintf(output, "{ [%s] }\n", node->data);
         }
-
+$
         return 0;
 }
 
